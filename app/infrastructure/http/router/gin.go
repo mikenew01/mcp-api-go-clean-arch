@@ -81,6 +81,20 @@ func (engine ginEngine) setAppHandlers(router *gin.Engine) {
 	router.POST("/v1/users", engine.handleCreateUser())
 	router.PUT("/v1/users/:userId", engine.handleUpdateUser())
 	router.DELETE("/v1/users/:userId", engine.handleDeleteUser())
+	router.POST("/success", engine.handleSuccessCustom())
+}
+
+func (engine ginEngine) handleSuccessCustom() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		usecase := usecase.NewSaveSuccessUseCase(
+			repository.NewSuccessRepositoryDynamoDB(engine.db),
+			presenter.NewSaveTransactionPresenter(),
+			engine.ctxTimeout,
+		)
+
+		userController := controller.NewSuccessController(usecase)
+		userController.Execute(ctx.Writer, ctx.Request)
+	}
 }
 
 func (engine ginEngine) handleGetUserById() gin.HandlerFunc {

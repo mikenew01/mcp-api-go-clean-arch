@@ -9,7 +9,7 @@ import (
 func main() {
 	os.Setenv("APP_NAME", "clean-arch")
 	os.Setenv("SERVER_PORT", "8080")
-	os.Setenv("AWS_ENDPOINT", "http://localhost:4566")
+	os.Setenv("AWS_ENDPOINT", "http://localhost:8000")
 	os.Setenv("AWS_REGION", "sa-east-1")
 
 	var app = server.NewConfig().
